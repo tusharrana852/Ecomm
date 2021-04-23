@@ -3,9 +3,7 @@ const app = express();
 
 
 
-app.get('/',(req,res)=>{
-     res.send('hello');
-})
+app.use('/',require('./routes'));
 
 const port = process.env.PORT||3000;
 
