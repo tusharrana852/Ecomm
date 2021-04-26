@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const path= require('path');
+const expressLayouts =require('express-ejs-layouts');
+
+app.use(expressLayouts);
 
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));

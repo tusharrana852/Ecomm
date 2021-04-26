@@ -1,4 +1,4 @@
 module.exports.profile= function(req,res){
     console.log("bye");
-    res.send("user controller");
+    return res.render('user_profile',{title:"user",H1:"Asure Data Factory"});
 }
