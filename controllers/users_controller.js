@@ -56,7 +56,7 @@ module.exports.createSession= function(req,res){
                 if(user && req.body.passwords==user.passwords){
                    
                     res.cookie('user_id',user.id);
-                    res.send(user);
+                    res.redirect('/');
                 }
                     else{
                         res.redirect('back');
