@@ -44,5 +44,23 @@ module.exports.create= function(req,res){
 
 //sign in and create session
 module.exports.createSession= function(req,res){
-
+        //  if(req.body.passwords!=req.body.cpasswords){
+        //      res.redirect('/users/sign-in');
+        //  }
+      //  console.log(typeof user.passwords);
+        console.log(typeof req.body.passwords)
+            User.findOne({email:req.body.email},function(err,user){
+                if(err){console.log("error"+err);
+                return;
+                }
+                if(user && req.body.passwords==user.passwords){
+                   
+                    res.cookie('user_id',user.id);
+                    res.send(user);
+                }
+                    else{
+                        res.redirect('back');
+                    }
+            })
+         
 }
