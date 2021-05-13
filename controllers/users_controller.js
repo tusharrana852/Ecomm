@@ -15,10 +15,9 @@ module.exports.sign_up= function(req, res){
 
 //get sign-up data
 module.exports.create= function(req,res){
-    //Todo later
     console.log(req.body.email);
     if(req.body.passwords!=req.body.cpasswords){
-        res.redirect('back');
+        res.redirect('/users/sign-up');
     }
         User.findOne({email:req.body.email},function(err,user){
             if(err){console.log("error"+err);
@@ -44,5 +43,5 @@ module.exports.create= function(req,res){
 
 //sign in and create session
 module.exports.createSession= function(req,res){
-
+    return res.redirect('back');
 }
