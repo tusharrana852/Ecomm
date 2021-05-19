@@ -13,9 +13,27 @@ module.exports.create= function(req,res){
         if(err){console.log('error in creating post'+err);
         return;}
         post.comments.push(comment);
+       
         // before save it present in the local memory
         post.save();
         res.redirect('/');
-      })
+      });
+   });
+}
+
+module.exports.destroy= function(req,res){
+   comment.findById(req.params.id,(err,comment)=>{
+      if(err){console.log('error in finding the comment'+err);
+       return;}
+      if(comment.user==req.user.id){
+         let postId= comment.post;
+         console.log('hogy');
+         comment.remove();
+            post.findByIdAndUpdate(req.params.id, {$pull: {comment: req.params.id}}, (err,post)=>{
+            return res.redirect('/');
+         });
+      }else{
+         return res.redirect('/');
+      }
    })
 }

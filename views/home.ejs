@@ -17,6 +17,11 @@
       <ul>
           <% for(post of posts) {%>
            <li>
+             <p>
+               <small>
+                 <a href="/posts/destroy/<%= post._id %>">X</a>
+               </small>
+             </p>
              <%= post.content %>
              <br>
              <p>
@@ -36,12 +41,14 @@
                     <ul id="post-comment" <%= post._id %> >
                        <% for(comment of post.comments) {%>
                         <p>
+                          <small>
+                            <a href="/comment/destroy/<%= comment._id %>">X</a>
+                          </small>
                           <%= comment.content %>
-                        </p>
-                        <small>
+                          <small>
                           <%= comment.user.name %>
                         </small>
-                        
+                        </p>
                         <%} %>
                     </ul>
                   </div>
