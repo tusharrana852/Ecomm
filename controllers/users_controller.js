@@ -1,7 +1,11 @@
 const User= require('../models/user');
 
 module.exports.profile= function(req,res){
-    return res.render('user_profile',{title:"user",H1:"Asure Data Factory"});
+    User.findById(req.params.id,(err,user)=>{
+        if(err){console.log(err);
+        return;}
+        return res.render('user_profile',{title:"user",H1:"Asure Data Factory", profile_user:user});
+    });
 }
 
 module.exports.sign_in= function(req, res){
