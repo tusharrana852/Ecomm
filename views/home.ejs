@@ -1,3 +1,34 @@
 <h1>Ecomm</h1>
 <%= H1 %>
+
+<section id="feed-posts">
+   
+  <% if(locals.user) {%>
+    <h4>Posts</h4>
+    <form action="/posts/create" id="new-post-form" method="POST">
+      <textarea rows="5" cols="25" required name="content"></textarea>
+      <input type="submit">
+    </form>
+  <%} %>
+  
+
+    <% if(locals.user) {%>
+    <div id="post-list-container">
+      <ul>
+          <% for(post of posts) {%>
+           <li>
+             <%= post.content %>
+             <br>
+             <p>
+               <small>
+                 <%= post.user.name %>
+               </small>
+             </p>
+           </li>
+         <%} %>
+      </ul>
+    </div>    
+  <%} %>
+
+</section>
     

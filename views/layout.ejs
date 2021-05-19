@@ -5,13 +5,18 @@
         </title>
         
         <link rel="stylesheet" href="/css/layout.css">
-        
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
         <%- style %> 
     </head>
     <body>
         <%- include('headers.ejs'); %>
 
-        <%- body %>   
+        <main id="layout-main">
+            
+            <%- body %>   
+        </main>
+
    
         <%- include('footer.ejs'); %>
         <%- script %>

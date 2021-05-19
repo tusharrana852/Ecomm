@@ -1,6 +1,7 @@
-body{
-    margin: 0px;
-    text-align: center;
-    font-size: large;
-    background-color: yellow;
-}
+body {
+  margin: 0px;
+  text-align: center;
+  font-size: large;
+  background-color: yellow; }
+  body #layout-main {
+    height: 100%; }
