@@ -10,5 +10,6 @@ module.exports.create= function(req,res){
     return;}
     console.log(post);
     return res.redirect('back');
-   })
+   });
 }
+

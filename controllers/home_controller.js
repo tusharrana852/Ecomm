@@ -12,7 +12,11 @@ module.exports.home=function(req,res){
   // })
 
   //populate the user object
-  post.find({}).populate('user').exec((err,post)=>{
+  post.find({}).populate('user')
+  .populate({path: 'comments',populate:{
+    path: 'user'
+  }})
+  .exec((err,post)=>{
     if(err){console.log(err);
     return;}
     console.log('populated user'+post);
