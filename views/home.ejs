@@ -1,35 +1,38 @@
 <h1>Ecomm</h1>
 <%= H1 %>
-
-<section id="feed-posts">
+<link rel="stylesheet" href="/css/home.css">
+<div id="home-container">
+  <section id="feed-posts">
    
-  <% if(locals.user) {%>
-    <h4>Posts</h4>
-    <form action="/posts/create" id="new-post-form" method="POST">
-      <textarea rows="5" cols="25" required name="content"></textarea>
-      <input type="submit">
-    </form>
-  <%} %>
-  
-  <% if(locals.user) {%>
-    <div id="post-list-container">
-      <ul>
-          <% for(post of posts) {%>
-          <%- include('_post.ejs') %>
-         <%} %>
-      </ul>
-    </div>    
-  <%} %>
-</section>
-
-<section id="user-friend">
-   <h1>Friends</h1>
-   <% for(u of all_user) {%>
-    <p>
-      <a href="/users/profile/<%= u.id %>">
-      <%= u.name %>
-      </a>
-    </p>
+    <% if(locals.user) {%>
+      <h4>Posts</h4>
+      <form action="/posts/create" id="new-post-form" method="POST">
+        <textarea rows="5" cols="25" required name="content"></textarea>
+        <input type="submit">
+      </form>
     <%} %>
-</section>
+    
+    <% if(locals.user) {%>
+      <div id="post-list-container">
+        <ul>
+            <% for(post of posts) {%>
+            <%- include('_post.ejs') %>
+           <%} %>
+        </ul>
+      </div>    
+    <%} %>
+  </section>
+  
+  <section id="user-friend">
+     <h1>Friends</h1>
+     <% for(u of all_user) {%>
+      <p>
+        <a href="/users/profile/<%= u.id %>">
+        <%= u.name %>
+        </a>
+      </p>
+      <%} %>
+  </section>
+  
+</div>
     

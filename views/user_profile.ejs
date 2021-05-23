@@ -2,11 +2,21 @@
 <h1>Ecomm</h1>
 
 <%= H1 %>
-<p>
-    <%= profile_user.name %>
 
-</p>
-<p>
+<% if(user.id == profile_user.id) {%>
+    <!-- if user matches show the form -->
+    <form action="/users/update/<%= profile_user.id %>" method="post">
+     <input type="text" name="name" placeholder="your name.." required value="<%= profile_user.name %>" >
+     <input type="text" name="email" placeholder="your email.." required value="<%= profile_user.email %>" >
+     <input type="submit" value="update">
+    </form>
+    <%}else{%>
+    <!-- show only user details -->
+    <br>
+    <p><%= profile_user.name %></p>
+    <p><%= profile_user.email %></p>
 
-    <%= profile_user.email %>    
-</p>
+    <%} %>
+    <a href="/users/delete/<%= profile_user.id %>">
+        delete profile
+    </a>

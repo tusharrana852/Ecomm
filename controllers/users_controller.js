@@ -8,6 +8,25 @@ module.exports.profile= function(req,res){
     });
 }
 
+module.exports.update= function(req,res){
+   if(req.user.id== req.params.id){
+       User.findByIdAndUpdate(req.params.id,req.body,(err,user)=>{
+           return res.redirect('/');
+       })
+   }else{
+       return res.status(401).send('Unathorised')
+   }
+}
+module.exports.delete = function(req,res){
+    // if(req.user.id== req.params.id){
+        User.findById(req.params.id,(err,use)=>{
+         use.remove();
+         res.redirect('/');
+        })
+    }
+//}
+
+
 module.exports.sign_in= function(req, res){
     if(req.isAuthenticated()){
       return res.redirect('/users/profile');
@@ -41,15 +60,11 @@ module.exports.create= function(req,res){
                 }
                 console.log(user);
                 return res.redirect('/users/sign-in');
-            })
+            });
         }else{
             res.redirect('back');
         }
-        })
-    
-
-    
-
+        });
 }
 
 //sign in and create session
