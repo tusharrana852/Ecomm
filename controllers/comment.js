@@ -27,7 +27,6 @@ module.exports.destroy= function(req,res){
        return;}
       if(comment.user==req.user.id){
          let postId= comment.post;
-         console.log('hogy');
          comment.remove();
             post.findByIdAndUpdate(req.params.id, {$pull: {comment: req.params.id}}, (err,post)=>{
             return res.redirect('/');
