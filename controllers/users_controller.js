@@ -1,4 +1,6 @@
 const User= require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 module.exports.profile= function(req,res){
     User.findById(req.params.id,(err,user)=>{
@@ -8,23 +10,52 @@ module.exports.profile= function(req,res){
     });
 }
 
-module.exports.update= function(req,res){
-   if(req.user.id== req.params.id){
-       User.findByIdAndUpdate(req.params.id,req.body,(err,user)=>{
-           return res.redirect('/');
-       })
+module.exports.update= async function(req,res){
+
+//    if(req.user.id== req.params.id){
+//        User.findByIdAndUpdate(req.params.id, req.body,(err,user)=>{
+//            return res.redirect('/');
+//        });
+//    }else{
+//        return res.status(401).send('Unathorised');
+//    }
+   if(req.user.id == req.params.id){
+       try {
+         let user1 = await User.findById(req.params.id);
+         User.uploadedAvatar(req,res,function(err){
+             if(err){
+                return console.log("error"+err);}
+                user1.name = req.body.name;
+                user1.email = req.body.email;
+             if(req.file){
+                 
+                if(user1.avatar){
+                    // fs.unlinkSync(path.join(__dirname,'..', user1.avatar));
+                    fs.rmdirSync(path.join(__dirname,'..', user1.avatar),{recursive:true})
+                 }
+                 
+                 // this is use for saving the avatar path into the database
+                user1.avatar =User.avatarPath + '/' + req.file.filename;
+                }
+            user1.save();
+            return res.redirect('back');    
+         });
+     } catch (error) {
+         req.flash("error",err);
+         return res.redirect('back');
+     }
+     
    }else{
-       return res.status(401).send('Unathorised')
-   }
+       return res.status(401).send('Unathorised');
+    }
 }
 module.exports.delete = function(req,res){
     // if(req.user.id== req.params.id){
-        User.findById(req.params.id,(err,use)=>{
+        User.findById(req.params.id,(err,user)=>{
          use.remove();
          res.redirect('/');
-        })
+        });
     }
-//}
 
 
 module.exports.sign_in= function(req, res){
@@ -69,7 +100,7 @@ module.exports.create= function(req,res){
 
 //sign in and create session
 module.exports.createSession= function(req,res){
-     console.log('hello'+user);
+    req.flash('success','Logged in Successfully')
     return res.redirect('back');
 }
 
@@ -77,5 +108,7 @@ module.exports.createSession= function(req,res){
 
 module.exports.destroy= function(req,res){
     req.logout();
+    req.flash('success','Logged out Successfully')
+
     res.redirect('/');
 }

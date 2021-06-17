@@ -13,9 +13,12 @@ const mongoose= require('mongoose');
 const session= require('express-session');
 const passport= require('passport');
 const passportlocal = require('./config/passport-local-strategy');
+const passportjwtStrategy = require('./config/passport-jwt-strategy');
+const passportGoogleStrategy = require('./config/passport-google-Oauth2');
 const MongoStore = require('connect-mongo')(session);
 const sassMiddleware = require('node-sass-middleware')
-
+const custMware = require('./config/middleware');
+const { dirname } = require('path');
 
 app.use(sassMiddleware({
     src:'./assets/scss',
@@ -29,6 +32,8 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(expressLayouts);
 app.use(express.static('./assets'));
+// makes the upload path availabe to browser
+app.use('/uploads',express.static(__dirname + '/uploads'));
 
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true);
@@ -57,12 +62,13 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 
 app.use(passport.setAuthenticated);
-
+app.use(flash());
+app.use(custMware.setFlash);
 
 app.use('/',require('./routes'));
+
 
 const port = process.env.PORT||3000;
 

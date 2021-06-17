@@ -1,33 +1,44 @@
-const post= require('../models/post');
+const Post= require('../models/post');
 const comment = require('../models/comment');
 
 
-module.exports.create= function(req,res){
-   post.create({
-       content: req.body.content,
-       user: req.user._id
-   },(err,post)=>{
-      if(err){console.log('error in creating post'+err);
-    return;}
-    console.log(post);
-    return res.redirect('back');
-   });
+module.exports.create= async function(req,res){
+   try {
+      let post= await Post.create({
+         content: req.body.content,
+         user: req.user._id});
+         
+         if(req.xhr){
+            return res.status(200).json({
+               data:{
+                  post: post._id
+               },
+               message:"post created"
+            });
+         }
+
+     req.flash('success','post created');
+      return res.redirect('back');   
+   
+   } catch (error) {
+     console.log('post created '+error);  
+   }
 }
 
-module.exports.destroy= function(req,res){
-   post.findById(req.params.id,(err,post)=>{
-        if(err){console.log('error in finding the post'+err);
-      return;}
+module.exports.destroy= async function(req,res){
+   try {
+      let posts= await Post.findById(req.params.id);
       // .id means that converting the id into the string 
-      if(post.user== req.user.id){
-        post.remove();
-        comment.deleteMany({post:req.params.id},(err)=>{
-          if(err){console.log('error in deleting');
-         return;}
-         return res.redirect('/');
-        })
+      if(posts.user== req.user.id){
+        posts.remove();
+        await comment.deleteMany({post:req.params.id});
+        req.flash('success','post Deleted');
+        return res.redirect('/');
+      
       }else{
          return res.redirect('/');
-      }
-   });
+      }   
+   } catch (error) {
+      console.log(error);
+   }
 }
